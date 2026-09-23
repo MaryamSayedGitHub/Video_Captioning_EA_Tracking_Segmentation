@@ -1,0 +1,10 @@
+opencv-python
+torch
+transformers
+Pillow
+groq
+gTTS
+moviepy
+python-dotenv
+arabic-reshaper
+python-bidi
