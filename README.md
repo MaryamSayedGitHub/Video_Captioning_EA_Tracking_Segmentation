@@ -10,7 +10,8 @@ Upload a video and get back four kinds of understanding, all from one small web 
 Built on CLIP + BLIP (captioning), YOLOv8 (detection and segmentation), ByteTrack / BoT-SORT (tracking), a Groq LLM (narrative) and edge-tts (voice).
 
 <p align="center">
-  ![Uploading image.png…]()
+ <img width="1887" height="852" alt="image" src="https://github.com/user-attachments/assets/2ef749c9-6357-4ffb-8885-86b4924818e7" />
+
 
 </p>
 
@@ -20,17 +21,20 @@ Built on CLIP + BLIP (captioning), YOLOv8 (detection and segmentation), ByteTrac
 
 ## Demo
 
-| Captioning | Tracking |
+| **Captioning** | **Tracking** |
 |---|---|
-| ![Captioning](docs/screenshots/02_captioning.png) | ![Tracking](docs/screenshots/03_tracking.png) |
+| <img width="1885" height="863" alt="image" src="https://github.com/user-attachments/assets/fb0e6563-28aa-4bad-9d75-0463da657af9" />| <img width="1885" height="863" alt="image" src="https://github.com/user-attachments/assets/f37befcd-c744-4cca-b592-b1b990e3a361" />|
 | **Segmentation** | **Full analysis** |
-| ![Segmentation](docs/screenshots/04_segmentation.png) | ![Full analysis](docs/screenshots/05_full_analysis.png) |
+| <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1aae7430-af87-4f5c-a22c-1eee4fc5a7c8" />| <img width="1885" height="863" alt="image" src="https://github.com/user-attachments/assets/49e94a59-0bd6-470e-b46e-f80cf8eaddc5" />|
 
 ### Analytics dashboard
-![Dashboard](docs/screenshots/06_dashboard.png)
+<img width="1856" height="866" alt="image" src="https://github.com/user-attachments/assets/1ce74264-6e0e-42f5-8bf5-f661a1d97435" />
+<img width="1862" height="848" alt="image" src="https://github.com/user-attachments/assets/07bc4a19-003f-4170-8eb9-6772e765ac22" />
+
 
 ### Word-by-word subtitles
-![Subtitles close-up](docs/screenshots/07_subtitles_closeup.png)
+<img width="1862" height="848" alt="image" src="https://github.com/user-attachments/assets/8dbbef9d-df85-4edd-bbc7-8d524315b9bc" />
+
 
 ---
 
