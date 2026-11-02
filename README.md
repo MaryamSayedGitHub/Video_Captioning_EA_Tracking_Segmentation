@@ -33,7 +33,8 @@ Built on CLIP + BLIP (captioning), YOLOv8 (detection and segmentation), ByteTrac
 
 
 ### Word-by-word subtitles
-<img width="1862" height="848" alt="image" src="https://github.com/user-attachments/assets/8dbbef9d-df85-4edd-bbc7-8d524315b9bc" />
+<img width="1892" height="856" alt="Screenshot 2026-11-03 004143" src="https://github.com/user-attachments/assets/4af4ab95-4e41-4a8b-b5e5-bf095bcc1975" />
+
 
 
 ---
