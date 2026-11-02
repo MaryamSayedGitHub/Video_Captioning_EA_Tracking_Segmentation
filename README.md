@@ -10,7 +10,8 @@ Upload a video and get back four kinds of understanding, all from one small web 
 Built on CLIP + BLIP (captioning), YOLOv8 (detection and segmentation), ByteTrack / BoT-SORT (tracking), a Groq LLM (narrative) and edge-tts (voice).
 
 <p align="center">
-  <img src="docs/screenshots/01_home.png" alt="Home page" width="85%">
+  ![Uploading image.png…]()
+
 </p>
 
 > **Screenshots:** the images in this README live in `docs/screenshots/`. Replace each placeholder with your own screenshot, keeping the same file name (details at the end).
