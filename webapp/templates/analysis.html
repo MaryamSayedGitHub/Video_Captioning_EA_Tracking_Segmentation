@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ meta.title }} · Video Intelligence{% endblock %}
+{% block main %}
+<div class="work">
+  <aside class="panel">
+    <h1>{{ meta.title }}</h1>
+    <p>{{ meta.blurb }}</p>
+    <form id="form" data-kind="analysis">
+      <label class="drop" id="drop">
+        <input type="file" name="video" accept="video/*" required>
+        <span id="dropText">Choose a video</span>
+      </label>
+      {% include "opts_vision.html" %}
+    <label class="inline"><input type="checkbox" name="with_captions" checked> Add BLIP captions to the video</label>
+      <button type="submit" id="go">Run analysis</button>
+    </form>
+    <div id="status" class="status" hidden>
+      <div class="bar"><i id="barFill"></i></div>
+      <span id="statusText"></span>
+    </div>
+  </aside>
+  <section id="results" class="results" aria-live="polite">
+    <p class="empty">Results appear here once the run finishes.</p>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

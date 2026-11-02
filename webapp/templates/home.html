@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% set current = None %}
+{% block main %}
+<section class="hero">
+  <h1>Upload a video. See what happens in it.</h1>
+  <p class="lead">Captions, tracked objects and pixel masks, built on the CLIP + BLIP captioning pipeline and YOLOv8.</p>
+</section>
+<section class="finder">
+  {% for key, p in pages.items() %}
+  <a class="frame {{ key }}" href="/{{ key }}">
+    <span class="tag">{{ p.title }}</span>
+    <span class="blurb">{{ p.blurb }}</span>
+  </a>
+  {% endfor %}
+</section>
+{% endblock %}

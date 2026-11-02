@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Video Intelligence{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/">Video Intelligence</a>
+  <nav>
+    {% for key, p in pages.items() %}
+    <a href="/{{ key }}" class="{{ 'on' if current == key else '' }}">{{ p.title }}</a>
+    {% endfor %}
+  </nav>
+</header>
+<main>{% block main %}{% endblock %}</main>
+{% block scripts %}{% endblock %}
+</body>
+</html>
