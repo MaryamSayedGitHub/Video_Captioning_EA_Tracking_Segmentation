@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}Video Intelligence{% endblock %}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Nunito:wght@500;600;700;800&display=swap">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="/">Video Intelligence</a>
+  <a class="brand" href="/"><span class="logo"><i></i></span>Video Intelligence</a>
   <nav>
     {% for key, p in pages.items() %}
-    <a href="/{{ key }}" class="{{ 'on' if current == key else '' }}">{{ p.title }}</a>
+    <a href="/{{ key }}" class="{{ key }} {{ 'on' if current == key else '' }}">{{ p.title }}</a>
     {% endfor %}
   </nav>
 </header>

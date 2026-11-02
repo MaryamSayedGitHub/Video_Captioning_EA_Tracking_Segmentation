@@ -29,3 +29,24 @@ def to_h264(src, dst):
     ]
     subprocess.run(cmd, check=True)
     return True
+
+
+def clean_copy(src, dst):
+    """Remux to a plain mp4 with only video (+audio) streams.
+
+    Some cameras / editors add a timecode data stream ('tmcd'); moviepy's ffmpeg
+    parser cannot read such files. Copying only the video and audio streams and
+    dropping metadata fixes that without re-encoding (fast, lossless).
+    Returns the path to read from (dst on success, src if ffmpeg is missing/fails).
+    """
+    exe = ffmpeg_exe()
+    if exe is None:
+        return src
+    cmd = [exe, "-y", "-loglevel", "error", "-i", str(src),
+           "-map", "0:v:0", "-map", "0:a:0?", "-map_metadata", "-1",
+           "-c", "copy", str(dst)]
+    try:
+        subprocess.run(cmd, check=True)
+        return dst
+    except Exception:
+        return src

@@ -1,12 +1,20 @@
-﻿.venv/
+# Python environments and caches
+.venv/
 venv/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+.pytest_cache/
+
+# Secrets - never commit
 .env
 .env.*
+
+# Web app runtime folders (uploaded videos and results)
 webapp/uploads/
 webapp/outputs/
+
+# Media produced or used while running
 *.mp4
 *.mov
 *.avi
@@ -15,10 +23,15 @@ webapp/outputs/
 *.mp3
 *.wav
 *.m4a
+temp-audio.m4a
+
+# Model weights downloaded automatically (YOLO etc.)
 *.pt
 *.pth
 *.onnx
 *.safetensors
+
+# Editors and OS
 .vscode/
 .idea/
 .DS_Store

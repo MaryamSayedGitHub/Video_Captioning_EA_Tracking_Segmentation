@@ -31,7 +31,9 @@ def draw_labels(frame, xyxy, cls, names):
     for box, k in zip(xyxy, cls):
         x1, y1 = int(box[0]), int(box[1])
         label = names[int(k)]
-        (tw, th), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
-        cv2.rectangle(frame, (x1, max(0, y1 - th - 6)), (x1 + tw + 6, y1), color_for(k), -1)
-        cv2.putText(frame, label, (x1 + 3, y1 - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        fs = max(0.6, frame.shape[0] / 1080 * 1.0)          # label size grows with the video resolution
+        th_ = max(1, int(round(fs * 2)))
+        (tw, th), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, fs, th_)
+        cv2.rectangle(frame, (x1, max(0, y1 - th - 10)), (x1 + tw + 10, y1), color_for(k), -1)
+        cv2.putText(frame, label, (x1 + 5, max(th + 4, y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, fs, (255, 255, 255), th_, cv2.LINE_AA)
     return frame

@@ -1,4 +1,6 @@
+import cv2
 import torch
+from PIL import Image
 from transformers import CLIPModel, CLIPProcessor
 
 _clip_model = None
@@ -15,7 +17,8 @@ def _load_clip():
 
 def get_clip_embedding(frame):
     model, processor = _load_clip()
-    inputs = processor(images=frame[..., ::-1], return_tensors="pt")  # BGR -> RGB
+    rgb = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))  # BGR -> RGB, fresh contiguous PIL image
+    inputs = processor(images=rgb, return_tensors="pt")
     with torch.no_grad():
         output = model.get_image_features(**inputs)
 

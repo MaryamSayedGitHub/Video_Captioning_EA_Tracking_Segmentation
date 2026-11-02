@@ -1,7 +1,7 @@
 [project]
 name = "video-caption"
 version = "0.1.0"
-description = "Add your description here"
+description = "Video captioning, tracking and segmentation"
 readme = "README.md"
 authors = [
     { name = "Maryam Sayed", email = "maryamsayed207@gmail.com" }
@@ -9,7 +9,9 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "arabic-reshaper>=3.0.1",
+    "flask>=3.0",
     "groq>=1.7.0",
+    "edge-tts>=7.0",
     "gtts>=2.5.4",
     "moviepy>=2.2.1",
     "opencv-python>=5.0.0.93",
@@ -18,11 +20,11 @@ dependencies = [
     "python-dotenv>=1.2.3",
     "torch>=2.14.0",
     "transformers>=5.17.0",
+    "ultralytics>=8.3",
 ]
 
-[project.scripts]
-video-caption = "video_caption:main"
-
-[build-system]
-requires = ["uv_build>=0.12.5,<0.13.0"]
-build-backend = "uv_build"
+# This is an application (scripts + web app), not an installable package,
+# so uv must not try to build it. This also removes the "Expected a Python module
+# at src/video_caption/__init__.py" error.
+[tool.uv]
+package = false

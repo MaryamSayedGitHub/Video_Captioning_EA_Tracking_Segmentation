@@ -5,12 +5,11 @@ Re-uses her modules unchanged (loaded by core.loader):
   -> 4_Collect_Captions (Groq) -> 6_burn_captions
 The TTS / voice-over steps (5, Final_Video_with_voice_over) are intentionally not used here.
 """
-import os
 import time
 from pathlib import Path
 
 from common.loader import load_root as load, step
-from common.video_io import to_h264
+from common import subtitles, voice
 
 HERE = Path(__file__).parent
 evaluation = step(HERE, "5_evaluation.py")
@@ -36,24 +35,8 @@ def run_vision_stage(video_path, fps_sample=2, similarity_threshold=0.96, progre
     return frames, keyframes, captions, timings
 
 
-def _burn(video_path, narrative, language, out_path):
-    """Burn the narrative onto the video with her 6_burn_captions, keep original audio."""
-    try:
-        from moviepy import VideoFileClip
-    except ImportError:
-        from moviepy.editor import VideoFileClip
-    bc = load("6_burn_captions.py")
-    clip = VideoFileClip(str(video_path))
-    captioned = bc.add_narrative_captions(clip, narrative, duration=clip.duration, language=language)
-    raw = str(out_path) + ".raw.mp4"
-    captioned.write_videofile(raw, codec="libx264", audio_codec="aac", logger=None)
-    clip.close()
-    to_h264(raw, out_path)
-    os.remove(raw)
-
-
 def run(video_path, out_dir, languages=("en", "ar"), fps_sample=2, similarity_threshold=0.96,
-        with_clip_score=True, progress=None, **_):
+        with_clip_score=True, voiceover=True, progress=None, **_):
     progress = progress or (lambda f, m="": None)
     out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -77,8 +60,23 @@ def run(video_path, out_dir, languages=("en", "ar"), fps_sample=2, similarity_th
                 continue
         result["narratives"][lang] = narrative
         name = f"captioned_{lang}.mp4"
-        _burn(video_path, narrative, lang, out_dir / name)
+        rtl = lang == "ar"
+        audio_path, dur, info = None, 0.0, None
+        if voiceover:
+            try:
+                info = voice.synthesize(narrative, lang, out_dir / f"voiceover_{lang}.mp3")
+                audio_path, dur, words = info["audio"], info["duration"], info["words"]
+                if info["note"]:
+                    result["notes"].append(f"[{lang}] {info['note']}")
+            except Exception as e:                       # no internet / TTS failure: keep the subtitles
+                result["notes"].append(f"[{lang}] voice-over failed ({type(e).__name__}: {e}); subtitles only.")
+        if info is None:
+            vdur = frames[-1][0] if frames else 10.0
+            words = voice.estimate_word_times(narrative.split(), max(vdur, 4.0))
+        subtitles.burn(video_path, words, out_dir / name, audio_path=audio_path, audio_duration=dur, rtl=rtl)
         result["videos"][lang] = name
+        if info:
+            result.setdefault("voice", {})[lang] = {"engine": info["engine"], "exact_word_timing": info["exact"]}
 
     stats = evaluation.caption_stats(len(frames), len(keyframes), captions)
     if with_clip_score and keyframes:

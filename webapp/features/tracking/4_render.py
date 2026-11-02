@@ -16,11 +16,13 @@ def draw_tracks(frame, xyxy, cls, ids, names, trails):
     for box, k, tid in zip(xyxy, cls, ids):
         c = color_for(tid if tid >= 0 else k)
         x1, y1, x2, y2 = map(int, box)
-        cv2.rectangle(frame, (x1, y1), (x2, y2), c, 2)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), c, max(2, frame.shape[0] // 400))
         label = names[k] + (f" #{tid}" if tid >= 0 else "")
-        (tw, th), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
-        cv2.rectangle(frame, (x1, max(0, y1 - th - 6)), (x1 + tw + 6, y1), c, -1)
-        cv2.putText(frame, label, (x1 + 3, y1 - 4), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+        fs = max(0.6, frame.shape[0] / 1080 * 1.0)          # label size grows with the video resolution
+        th_ = max(1, int(round(fs * 2)))
+        (tw, th), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, fs, th_)
+        cv2.rectangle(frame, (x1, max(0, y1 - th - 10)), (x1 + tw + 10, y1), c, -1)
+        cv2.putText(frame, label, (x1 + 5, max(th + 4, y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, fs, (255, 255, 255), th_, cv2.LINE_AA)
     for tid, pts in trails.items():
         if len(pts) > 1:
             cv2.polylines(frame, [np.array(pts, np.int32)], False, color_for(tid), 2, cv2.LINE_AA)

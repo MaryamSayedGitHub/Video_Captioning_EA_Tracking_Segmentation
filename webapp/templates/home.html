@@ -2,15 +2,44 @@
 {% set current = None %}
 {% block main %}
 <section class="hero">
-  <h1>Upload a video. See what happens in it.</h1>
-  <p class="lead">Captions, tracked objects and pixel masks, built on the CLIP + BLIP captioning pipeline and YOLOv8.</p>
+  <div>
+    <h1>Upload a video and watch what happens in it.</h1>
+    <p class="lead">It writes captions, follows every object and cuts out each one, then reads the story aloud with the words lighting up as they are spoken.</p>
+  </div>
+  <div class="demo" aria-hidden="true">
+    <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice">
+      <circle cx="320" cy="48" r="26" fill="#ffd96b"/>
+      <path d="M0 170 Q90 120 180 160 T400 140 V250 H0Z" fill="#8fd6b3"/>
+      <path d="M0 200 Q110 160 220 195 T400 185 V250 H0Z" fill="#6cc6a0"/>
+      <g fill="#2f5d62"><circle cx="150" cy="104" r="11"/><rect x="138" y="116" width="24" height="46" rx="11"/></g>
+      <g fill="#c26a4a"><circle cx="252" cy="112" r="10"/><rect x="241" y="123" width="22" height="42" rx="10"/></g>
+    </svg>
+    <div class="tagbox" style="left:33%;top:33%;width:11%;height:36%"><em>person #1</em></div>
+    <div class="tagbox" style="left:59%;top:37%;width:10%;height:33%;border-color:var(--mint)"><em style="background:var(--mint)">person #2</em></div>
+    <div class="sub" id="demoSub"><span>Two people walk</span> <b>across</b> <span>the sunny park</span></div>
+  </div>
 </section>
 <section class="finder">
+  {% set icons = {
+    'captioning': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 12h4M13 12h4M7 15.5h10"/></svg>',
+    'tracking': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5h3M17 5h3v3M20 16v3h-3M7 19H4v-3"/><circle cx="12" cy="12" r="2.5"/></svg>',
+    'segmentation': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14c0-5 4-9 9-8 3 1 4 4 3 7s-3 5-6 5-6-1-6-4z"/></svg>',
+    'analysis': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"/></svg>'} %}
   {% for key, p in pages.items() %}
   <a class="frame {{ key }}" href="/{{ key }}">
+    <span class="ico">{{ icons[key]|safe }}</span>
     <span class="tag">{{ p.title }}</span>
     <span class="blurb">{{ p.blurb }}</span>
   </a>
   {% endfor %}
 </section>
+<script>
+/* one gentle moment: the highlight walks along the demo subtitle, like the real captions do */
+(function(){
+  var el=document.getElementById('demoSub'); if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var words=["Two","people","walk","across","the","sunny","park"], i=3;
+  function paint(){el.innerHTML=words.map(function(w,k){return k===i?'<b>'+w+'</b>':'<span>'+w+'</span>'}).join(' ')}
+  paint(); setInterval(function(){i=(i+1)%words.length;paint()},650);
+})();
+</script>
 {% endblock %}
